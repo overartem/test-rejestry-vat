@@ -1,0 +1,38 @@
+@layer pages {
+  @page { size: A4 landscape; margin: 12mm; }
+
+  :root { color-scheme: light; }
+
+  body { background: #fff !important; color: #000; font-size: 9.5pt; }
+
+  .app, .toasts, .state-switcher, .skip-link, [popover], dialog { display: none !important; }
+
+  .print-area { display: block !important; }
+
+  .print-head {
+    margin-block-end: 6mm;
+    p { color: #444; font-size: 9pt; }
+    h1 { margin-block: 1mm; font-size: 16pt; }
+  }
+  .print-note { margin-block-start: 2mm; font-style: italic; }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    th, td { padding: 1.6mm 2mm; border-block-end: 0.3pt solid #bbb; text-align: start; }
+    thead th { border-block-end: 0.8pt solid #000; font-weight: 700; }
+    thead { display: table-header-group; }
+    tr { break-inside: avoid; }
+    .num { text-align: end; white-space: nowrap; }
+    .icon, .label { display: none; }
+  }
+
+  .print-totals {
+    display: flex;
+    justify-content: end;
+    gap: 10mm;
+    margin-block-start: 5mm;
+    dt { font-size: 8.5pt; color: #444; }
+    dd { font-size: 12pt; font-weight: 700; }
+  }
+}
