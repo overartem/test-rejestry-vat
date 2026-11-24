@@ -232,9 +232,12 @@
     background-position: right 0.7rem center;
     background-size: 1rem;
     height: var(--control-h);
+    padding-block: 0;
+    /* WebKit pins the value to the top once the native look is removed; a full-height line centres it. */
+    line-height: calc(var(--control-h) - 2px);
     text-align: start;
-    &::-webkit-date-and-time-value { margin: 0; text-align: start; }
-    &::-webkit-datetime-edit { padding: 0; }
+    &::-webkit-date-and-time-value { margin: 0; line-height: inherit; text-align: start; }
+    &::-webkit-datetime-edit { padding: 0; line-height: inherit; }
     /* Native picker button stays clickable but invisible on top of the drawn icon. */
     &::-webkit-calendar-picker-indicator {
       position: absolute;
