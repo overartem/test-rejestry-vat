@@ -28,8 +28,11 @@
     scroll-padding-block: calc(var(--chrome-h) + var(--sp-4)) var(--sp-20);
   }
   html:has(.bulk-bar) { scroll-padding-block-start: calc(var(--chrome-h) + var(--control-h-sm) + var(--sp-8)); }
-  /* Only the overlay scrolls while filters or a modal are open. */
-  html:has(.popover--sheet:popover-open, dialog[open]) { overflow: hidden; }
+  /* Only the overlay scrolls while filters or a modal are open. Not on touch:
+     iOS Safari then misplaces taps inside bottom sheets (taps land below the target). */
+  @media not (pointer: coarse) {
+    html:has(.popover--sheet:popover-open, dialog[open]) { overflow: hidden; }
+  }
 
   body {
     font-size: var(--fs-base);
