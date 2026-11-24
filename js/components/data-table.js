@@ -116,6 +116,23 @@ function detailPanel(doc, ctx) {
   `;
 }
 
+function detailRow(doc, ctx, span) {
+  return html`<tr class="dt__detail" id="det-${doc.id}"><td colspan="${span}">${detailPanel(doc, ctx)}</td></tr>`;
+}
+
+/**
+ * Opens/closes one row's details in place. Re-rendering the whole table would
+ * lose the scroll position in browsers without scroll anchoring (Safari).
+ */
+export function toggleRowDetail(row, doc, ctx, open) {
+  const button = row.querySelector('.dt__expand');
+  button.setAttribute('aria-expanded', String(open));
+  button.setAttribute('aria-label', t(open ? 'table.hideDetails' : 'table.showDetails', { name: doc.number }));
+  row.classList.toggle('is-open', open);
+  if (row.nextElementSibling?.matches('.dt__detail')) row.nextElementSibling.remove();
+  if (open) row.insertAdjacentHTML('afterend', detailRow(doc, ctx, row.cells.length).value);
+}
+
 /**
  * @param {object} ctx  { docs, columns, sort, dir, selection:Set, expanded:Set, labelsFor(id), caption }
  */
@@ -157,7 +174,7 @@ export function dataTable(ctx) {
                   </button>
                 </td>
               </tr>
-              ${open ? html`<tr class="dt__detail" id="det-${doc.id}"><td colspan="${span}">${detailPanel(doc, ctx)}</td></tr>` : ''}
+              ${open ? detailRow(doc, ctx, span) : ''}
             `;
           })}
         </tbody>

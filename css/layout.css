@@ -127,6 +127,8 @@
     scrollbar-width: none;
     list-style: none;
     &::-webkit-scrollbar { display: none; }
+    /* Items must not shrink: Safari treats the SVG icon as compressible and lets text spill past the border. */
+    > li { flex: none; }
   }
 
   /* Edge fades signal more items; each side fades in only while there is content beyond it. */

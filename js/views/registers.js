@@ -12,7 +12,7 @@ import { evaluateItem } from '../data/areas.js';
 import { pageHead, setTitle } from '../components/page-head.js';
 import { periodPicker, periodGrid, shiftMonth } from '../components/period-picker.js';
 import { filtersBody, filterChips, activeFilterCount } from '../components/filters.js';
-import { dataTable, tableSkeleton, sortDocuments, loadColumns, COLUMN_IDS } from '../components/data-table.js';
+import { dataTable, tableSkeleton, sortDocuments, loadColumns, COLUMN_IDS, toggleRowDetail } from '../components/data-table.js';
 import { openColumnsDialog } from '../components/columns-dialog.js';
 import { openLabelsDialog } from '../components/labels-dialog.js';
 import { mountStateSwitcher } from '../components/state-switcher.js';
@@ -608,8 +608,12 @@ export const registersView = {
         }
         case 'expand': {
           const id = target.dataset.id;
-          if (expanded.has(id)) expanded.delete(id); else expanded.add(id);
-          drawRegion();
+          const open = !expanded.has(id);
+          if (open) expanded.add(id); else expanded.delete(id);
+          const row = target.closest('tr');
+          const doc = allDocs().find((d) => d.id === id);
+          if (row && doc) toggleRowDetail(row, doc, { labelsFor }, open);
+          else drawRegion();
           break;
         }
         case 'page': update({ p: Number(target.dataset.page) }, { resetPage: false }); $('#reg-panel', outlet).scrollIntoView({ block: 'nearest', behavior: 'smooth' }); break;
